@@ -40,7 +40,7 @@ that improve accessibility for screen reader users and document navigation.
 
 axe-core is the industry-standard accessibility testing engine, trusted by millions of
 developers. But it was designed for web pages with a live DOM, not for Jupyter notebooks.
-When applied to notebook content, it fails systematically across four categories — and
+When applied to notebook content, it fails systematically across three categories — and
 even where it _can_ detect an issue, it lacks the metadata our tool needs to fix it.
 
 ### Problem 1: Rendered HTML Does Not Reflect the Author's Intent
