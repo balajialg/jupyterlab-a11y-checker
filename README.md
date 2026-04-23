@@ -4,10 +4,11 @@
 
 jupyterLab-a11y-checker is an accessibility engine for Jupyter Notebooks, assisting authors detect and fix accessibility issues, aligning with WCAG 2.1 AA guidelines.
 
-Users can use this tool in two ways:
+Users can use this tool in three ways:
 
-1. As a JupyterLab extension. It not only provides accessibility scan results in real-time but also provides actionable suggestions to fix them. You can try the extension directly in your browser without any installation via our [JupyterLite demo](https://berkeley-dsep-infra.github.io/jupyterlab-a11y-checker/lab/index.html).
-2. As a CLI tool. It can be ran independently of JupyterLab, for instance in GitHub Actions, to maintain accessible notebooks.
+1. As a **JupyterLab extension**. It provides accessibility scan results in real-time with actionable suggestions to fix them. You can try the extension directly in your browser without any installation via our [JupyterLite demo](https://berkeley-dsep-infra.github.io/jupyterlab-a11y-checker/lab/index.html).
+2. As a **CLI tool**. It can be run independently of JupyterLab, for instance in GitHub Actions, to maintain accessible notebooks.
+3. As a **web app (JupyCheck)**. Scan an entire GitHub repository or uploaded notebooks for accessibility issues directly in the browser — no installation required.
 
 ## Core Detection Engine
 
@@ -57,6 +58,24 @@ steps:
     with:
       files: "**/*.ipynb"
 ```
+
+## JupyCheck (Web App)
+
+JupyCheck is a standalone web app for batch-analyzing Jupyter Notebooks without installing JupyterLab. All analysis runs client-side in the browser — no server or backend required.
+
+**Two input modes:**
+
+- **GitHub repository**: Paste a repo URL to scan all `.ipynb` files. Supports private repos with a GitHub token.
+- **File upload**: Drag-and-drop or upload `.ipynb` files directly.
+
+JupyCheck runs the full detection engine (including axe-core and color contrast) and provides:
+
+- Summary statistics and an issues-by-type chart
+- Per-notebook issue breakdown with cell references
+- Export to CSV, Markdown, or JSON
+- "Fix in JupyterLite" links to open notebooks with the extension pre-installed for interactive fixing
+
+Try it at: [jupycheck.vercel.app](https://jupycheck.vercel.app)
 
 ## Getting Started
 
