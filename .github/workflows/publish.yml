@@ -5,6 +5,16 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Force-publish a package (normally automatic on release)"
+        required: false
+        default: "none"
+        type: choice
+        options:
+          - none
+          - cli
+          - extension
 
 permissions:
   contents: write
@@ -83,7 +93,9 @@ jobs:
 
   publish-extension:
     needs: release-please
-    if: needs.release-please.outputs.extension_released == 'true'
+    if: >-
+      needs.release-please.outputs.extension_released == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.target == 'extension')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -128,7 +140,9 @@ jobs:
 
   publish-cli:
     needs: release-please
-    if: needs.release-please.outputs.cli_released == 'true'
+    if: >-
+      needs.release-please.outputs.cli_released == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.target == 'cli')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -153,7 +167,9 @@ jobs:
           YARN_CHECKSUM_BEHAVIOR: update
         run: |
           set -eux
-          jlpm install
+          corepack enable
+          corepack prepare yarn@3.5.0 --activate
+          yarn install
           npm run build -w packages/core
           npm run build -w packages/cli
 
