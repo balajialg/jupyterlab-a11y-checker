@@ -5,6 +5,16 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Force-publish a package (normally automatic on release)"
+        required: false
+        default: "none"
+        type: choice
+        options:
+          - none
+          - cli
+          - extension
 
 permissions:
   contents: write
@@ -83,8 +93,12 @@ jobs:
 
   publish-extension:
     needs: release-please
-    if: needs.release-please.outputs.extension_released == 'true'
+    if: >-
+      needs.release-please.outputs.extension_released == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.target == 'extension')
     runs-on: ubuntu-latest
+    # Must match the Environment name set on the PyPI trusted publisher.
+    environment: pypi
     permissions:
       contents: read
       id-token: write
@@ -128,8 +142,12 @@ jobs:
 
   publish-cli:
     needs: release-please
-    if: needs.release-please.outputs.cli_released == 'true'
+    if: >-
+      needs.release-please.outputs.cli_released == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.target == 'cli')
     runs-on: ubuntu-latest
+    # Must match the Environment name set on the npm trusted publisher.
+    environment: npm
     permissions:
       contents: read
       id-token: write
@@ -145,7 +163,9 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Ensure npm supports trusted publishing
-        run: npm install -g npm@latest
+        run: |
+          npm install -g npm@latest
+          npm --version
 
       - name: Install dependencies and build CLI
         env:
@@ -153,9 +173,25 @@ jobs:
           YARN_CHECKSUM_BEHAVIOR: update
         run: |
           set -eux
-          jlpm install
+          corepack enable
+          corepack prepare yarn@3.5.0 --activate
+          yarn install
           npm run build -w packages/core
           npm run build -w packages/cli
+
+      # setup-node's registry-url writes an .npmrc with `always-auth=true` and an
+      # `_authToken=` line, which makes npm demand a token and skip OIDC. Strip
+      # those lines (keep the registry) so npm performs the OIDC exchange.
+      - name: Prepare npm for OIDC trusted publishing
+        run: |
+          if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then echo "OIDC env: present"; else echo "OIDC env: MISSING"; fi
+          cfg="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+          echo "npmrc path: $cfg"
+          if [ -f "$cfg" ]; then
+            sed -i '/_authToken=/d; /always-auth/d' "$cfg"
+            echo "--- npmrc after strip ---"
+            cat "$cfg"
+          fi
 
       - name: Publish to npm via Trusted Publishing
         working-directory: packages/cli
