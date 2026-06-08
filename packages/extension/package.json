@@ -24,7 +24,8 @@
     "style": "style/index.css",
     "repository": {
         "type": "git",
-        "url": "https://github.com/berkeley-dsep-infra/jupyterlab-a11y-checker.git"
+        "url": "https://github.com/berkeley-dsep-infra/jupyterlab-a11y-checker.git",
+        "directory": "packages/extension"
     },
     "scripts": {
         "build": "yarn build:lib && yarn build:labextension:dev",
