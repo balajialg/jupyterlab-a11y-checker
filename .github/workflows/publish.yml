@@ -175,11 +175,20 @@ jobs:
           npm run build -w packages/core
           npm run build -w packages/cli
 
-      # Empty NODE_AUTH_TOKEN overrides setup-node's placeholder so npm finds no
-      # token and falls back to OIDC trusted publishing (registry-url above gives
-      # it the registry context OIDC needs).
+      # setup-node's registry-url writes an .npmrc with `always-auth=true` and an
+      # `_authToken=` line, which makes npm demand a token and skip OIDC. Strip
+      # those lines (keep the registry) so npm performs the OIDC exchange.
+      - name: Prepare npm for OIDC trusted publishing
+        run: |
+          if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then echo "OIDC env: present"; else echo "OIDC env: MISSING"; fi
+          cfg="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+          echo "npmrc path: $cfg"
+          if [ -f "$cfg" ]; then
+            sed -i '/_authToken=/d; /always-auth/d' "$cfg"
+            echo "--- npmrc after strip ---"
+            cat "$cfg"
+          fi
+
       - name: Publish to npm via Trusted Publishing
         working-directory: packages/cli
-        env:
-          NODE_AUTH_TOKEN: ""
         run: npm publish --provenance --access public
