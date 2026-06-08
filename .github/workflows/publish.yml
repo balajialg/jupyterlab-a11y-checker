@@ -97,6 +97,8 @@ jobs:
       needs.release-please.outputs.extension_released == 'true' ||
       (github.event_name == 'workflow_dispatch' && inputs.target == 'extension')
     runs-on: ubuntu-latest
+    # Must match the Environment name set on the PyPI trusted publisher.
+    environment: pypi
     permissions:
       contents: read
       id-token: write
@@ -144,6 +146,8 @@ jobs:
       needs.release-please.outputs.cli_released == 'true' ||
       (github.event_name == 'workflow_dispatch' && inputs.target == 'cli')
     runs-on: ubuntu-latest
+    # Must match the Environment name set on the npm trusted publisher.
+    environment: npm
     permissions:
       contents: read
       id-token: write
