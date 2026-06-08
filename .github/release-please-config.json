@@ -3,7 +3,7 @@
   "include-v-in-tag": true,
   "include-component-in-tag": true,
   "separate-pull-requests": true,
-  "pull-request-title-pattern": "publish: release${component} v${version}",
+  "pull-request-title-pattern": "chore: release${component} v${version}",
   "pull-request-header": "This automated pull request prepares the next release. Merging it will tag the release and publish the updated package. Please review the version and changelog below.",
   "pull-request-footer": "<!-- -->",
   "packages": {
