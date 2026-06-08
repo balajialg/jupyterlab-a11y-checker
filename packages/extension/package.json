@@ -13,7 +13,7 @@
         "url": "https://github.com/berkeley-dsep-infra/jupyterlab-a11y-checker/issues"
     },
     "license": "BSD-3-Clause",
-    "author": "Chanbin Park",
+    "author": "Research, Teaching, and Learning at UC Berkeley",
     "files": [
         "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
         "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
