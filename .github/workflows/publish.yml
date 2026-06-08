@@ -152,16 +152,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # NOTE: do NOT set registry-url here. It makes setup-node write an .npmrc
-      # with `_authToken=${NODE_AUTH_TOKEN}` (a masked placeholder), which npm
-      # then uses for auth and gets a 404 — shadowing OIDC trusted publishing.
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Ensure npm supports trusted publishing
-        run: npm install -g npm@latest
+        run: |
+          npm install -g npm@latest
+          npm --version
 
       - name: Install dependencies and build CLI
         env:
@@ -175,6 +175,11 @@ jobs:
           npm run build -w packages/core
           npm run build -w packages/cli
 
+      # Empty NODE_AUTH_TOKEN overrides setup-node's placeholder so npm finds no
+      # token and falls back to OIDC trusted publishing (registry-url above gives
+      # it the registry context OIDC needs).
       - name: Publish to npm via Trusted Publishing
         working-directory: packages/cli
+        env:
+          NODE_AUTH_TOKEN: ""
         run: npm publish --provenance --access public
