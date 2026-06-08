@@ -3,6 +3,12 @@
     "version": "0.1.5",
     "description": "CLI for JupyterLab A11y Checker",
     "author": "Research, Teaching, and Learning at UC Berkeley",
+    "license": "BSD-3-Clause",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/berkeley-dsep-infra/jupyterlab-a11y-checker.git",
+        "directory": "packages/cli"
+    },
     "bin": {
         "jupyterlab-a11y-check": "dist/index.js"
     },
