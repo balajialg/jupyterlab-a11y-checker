@@ -6,19 +6,6 @@
   "pull-request-title-pattern": "chore: release${component} v${version}",
   "pull-request-header": "This automated pull request prepares the next release. Merging it will tag the release and publish the updated package. Please review the version and changelog below.",
   "pull-request-footer": "",
-  "changelog-sections": [
-    { "type": "feat", "section": "Features" },
-    { "type": "fix", "section": "Bug Fixes" },
-    { "type": "perf", "section": "Performance Improvements" },
-    { "type": "revert", "section": "Reverts" },
-    { "type": "docs", "section": "Etc" },
-    { "type": "chore", "section": "Etc" },
-    { "type": "refactor", "section": "Etc" },
-    { "type": "style", "section": "Etc" },
-    { "type": "test", "section": "Etc" },
-    { "type": "build", "section": "Etc" },
-    { "type": "ci", "section": "Etc" }
-  ],
   "packages": {
     "packages/extension": {
       "release-type": "node",

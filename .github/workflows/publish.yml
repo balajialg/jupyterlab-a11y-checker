@@ -31,6 +31,56 @@ jobs:
           config-file: .github/release-please-config.json
           manifest-file: .github/.release-please-manifest.json
 
+  # Posts a verbatim, per-package list of commit titles on each open release PR
+  # (a "sticky" comment, updated in place). This is raw git history, separate
+  # from release-please's parsed Features/Bug Fixes changelog.
+  pr-commit-list:
+    needs: release-please
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Comment commit lists on release PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          marker="<!-- raw-commit-list -->"
+
+          post() {
+            pkg="$1"; path="$2"; tagprefix="$3"
+            branch="release-please--branches--main--components--$pkg"
+            pr=$(gh pr list --repo "$REPO" --head "$branch" --state open --json number --jq '.[0].number // empty')
+            if [ -z "$pr" ]; then echo "No open release PR for $pkg; skipping."; return; fi
+
+            lasttag=$(git tag --list "${tagprefix}*" --sort=-creatordate | head -1 || true)
+            if [ -n "$lasttag" ]; then range="${lasttag}..HEAD"; else range=""; fi
+            commits=$(git log $range --no-merges --pretty=format:'- %s (%h)' -- "$path" || true)
+            [ -z "$commits" ] && commits="_No commits found for this package since the last release._"
+
+            body=$(printf '%s\n### Commits in this release (%s)\n\n%s\n' "$marker" "$pkg" "$commits")
+
+            cid=$(gh api "repos/$REPO/issues/$pr/comments" --jq ".[] | select(.body | contains(\"$marker\")) | .id" | head -1 || true)
+            if [ -n "$cid" ]; then
+              gh api -X PATCH "repos/$REPO/issues/comments/$cid" -f body="$body" >/dev/null
+              echo "Updated commit-list comment on PR #$pr ($pkg)."
+            else
+              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="$body" >/dev/null
+              echo "Created commit-list comment on PR #$pr ($pkg)."
+            fi
+          }
+
+          post cli packages/cli cli-v
+          post extension packages/extension extension-v
+
   publish-extension:
     needs: release-please
     if: needs.release-please.outputs.extension_released == 'true'
