@@ -9,6 +9,7 @@
     "lint": "cd packages/extension && yarn lint"
   },
   "resolutions": {
+    "esbuild": ">=0.28.1",
     "minimatch": ">=3.1.3",
     "tar": ">=7.5.11",
     "rollup": ">=4.59.0",
