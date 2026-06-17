@@ -48,7 +48,7 @@ If you need to run checks offline or in CI, the repository now ships a CLI that 
 
    ```bash
    jlpm link
-   jupyterlab-a11y-check test_notebooks/Demo.ipynb
+   jupyterlab-a11y-check docs/examples/notebooks/Demo.ipynb
    ```
 
    (Undo with `jlpm unlink` when done.)

@@ -1,4 +1,6 @@
-# Release & Deployment
+---
+title: Release and Deployment
+---
 
 This doc is about how `jupyterlab-a11y-checker` is versioned and published.
 
@@ -18,7 +20,7 @@ Publishing (no stored tokens). Two packages are published:
 
 1. **Make your change** on a branch and commit it with a **Conventional Commit**
    message (e.g. `fix: handle empty alt text` or `feat: add severity column`).
-   See [Versioning](#versioning) for how the prefix maps to the version bump.
+   See {ref}`versioning` for how the prefix maps to the version bump.
 2. **Open a PR and merge it into `main`.**
 3. On the push to `main`, release-please opens (or updates) a **release PR**
    titled `chore: release <package> v<version>`.
@@ -28,6 +30,7 @@ Publishing (no stored tokens). Two packages are published:
    creates the GitHub Release, and the workflow automatically publishes the
    package to PyPI / npm with provenance.
 
+(versioning)=
 ## Versioning
 
 The version is derived from commit prefixes since the last release — you never

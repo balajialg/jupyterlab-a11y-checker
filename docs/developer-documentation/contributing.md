@@ -1,4 +1,6 @@
-# Contributing
+---
+title: Contributing
+---
 
 We're building this tool for the community, and we'd love your help! Whether it's adding new accessibility checks, or refining the fix suggestions, your contributions can help this project make a broader impact.
 
@@ -130,5 +132,5 @@ If you are developing locally or want to run from the checked-out repository:
 2. Run the CLI directly:
 
    ```bash
-   ./packages/cli/dist/index.js test_notebooks/demo.ipynb
+   ./packages/cli/dist/index.js docs/examples/notebooks/Demo.ipynb
    ```

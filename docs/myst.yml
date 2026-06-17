@@ -1,0 +1,56 @@
+version: 1
+project:
+  title: JupyterLab A11y Checker
+  exclude:
+    - README.md
+  toc:
+    - file: index.md
+    - file: installation.md
+    - file: user-guide.md
+    - title: Reference
+      children:
+        - title: Rules
+          file: components/rules.md
+        - title: Fix Interfaces
+          file: components/fix.md
+        - title: Detection Details
+          file: notes-on-detection.md
+    - title: Developer Documentation
+      children:
+        - file: developer-documentation/contributing.md
+        - file: developer-documentation/release-deploy.md
+    - file: troubleshooting.md
+    - title: Example Notebooks 
+      file: examples/intro.md
+      children:
+        - title: Image Tests
+          file: examples/notebooks/image-basic-tests.ipynb
+          hidden: true
+        - title: Heading Tests 1
+          file: examples/notebooks/heading-basic-tests-1-Copy1.ipynb
+          hidden: true
+        - title: Heading Tests 2
+          file: examples/notebooks/heading-basic-tests-2.ipynb
+          hidden: true
+        - title: Table Tests
+          file: examples/notebooks/table-basic-tests.ipynb
+          hidden: true
+        - title: Color Tests
+          file: examples/notebooks/color-basic-tests.ipynb
+          hidden: true
+        - title: Link Tests
+          file: examples/notebooks/link-basic-tests.ipynb
+          hidden: true
+        - title: Demo
+          file: examples/notebooks/Demo.ipynb
+          hidden: true
+  github: https://github.com/berkeley-cdss/jupyterlab-a11y-checker
+
+site:
+  template: book-theme
+  title: JupyterLab A11y Checker
+  domains:
+    - a11y-checker-guide.datahub.berkeley.edu
+  options:
+    folders: true
+    logo_text: ""

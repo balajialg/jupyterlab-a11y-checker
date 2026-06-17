@@ -1,3 +1,7 @@
+---
+title: Notes on Detection
+---
+
 # Notes on Detection
 
 This document provides a comprehensive reference for every accessibility rule: what it detects, whether it maps to a WCAG success criterion or is a best practice, and why we use custom detection instead of axe-core.
