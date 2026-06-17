@@ -3,12 +3,20 @@ name: Build
 on:
   push:
     branches: main
-    paths-ignore:
-      - 'docs/**'
+    paths:
+      - 'packages/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.yarnrc.yml'
+      - 'tsconfig.json'
   pull_request:
     branches: '*'
-    paths-ignore:
-      - 'docs/**'
+    paths:
+      - 'packages/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.yarnrc.yml'
+      - 'tsconfig.json'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

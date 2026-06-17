@@ -3,8 +3,13 @@ name: Deploy JupyterLite
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'docs/**'
+    paths:
+      - 'packages/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.yarnrc.yml'
+      - 'tsconfig.json'
+      - 'experimental/**'
   workflow_dispatch:
 
 permissions:
