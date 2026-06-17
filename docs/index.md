@@ -30,4 +30,4 @@ The extension focuses on the following issues:
 * **Insufficient Color Contrast** for text within images or image outputs.
 * **Indiscernible Link Text** (e.g., "click here," or bare URLs) in Markdown cells.
 
-You can read more about these issues in the [rules page](https://a11y-checker-guide.datahub.berkeley.edu/rules/)
+You can read more about these issues in the [rules page](https://a11y-checker-guide.datahub.berkeley.edu/rules/).
