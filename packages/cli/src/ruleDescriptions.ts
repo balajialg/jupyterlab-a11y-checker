@@ -6,7 +6,7 @@ export interface IRuleDescription {
   severity?: string;
 }
 
-import rulesContent from "../../../doc/rules.md";
+import rulesContent from "../../../docs/components/rules.md";
 
 function parseRuleLines(contents: string): Record<string, IRuleDescription> {
   const lines = contents.split(/\r?\n/);
