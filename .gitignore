@@ -35,6 +35,10 @@ dist/
 downloads/
 eggs/
 .eggs/
+# Exception: the CLI bundle is committed so the GitHub Action can run it
+# directly from a checkout (e.g. used via @main) without an install/build step.
+!packages/cli/dist/
+!packages/cli/dist/**
 lib/
 lib64/
 parts/
