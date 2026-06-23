@@ -54,7 +54,7 @@ steps:
   - uses: actions/checkout@v4
 
   - name: Scan notebooks for accessibility issues
-    uses: berkeley-dsep-infra/jupyterlab-a11y-checker@main
+    uses: berkeley-cdss/jupyterlab-a11y-checker@main
     with:
       files: "**/*.ipynb"
 ```
